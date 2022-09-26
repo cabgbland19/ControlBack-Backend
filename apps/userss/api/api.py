@@ -108,11 +108,13 @@ class UsersAPIVIEW(APIView):
             document=request.data['document']
             password=request.data['password']
             campaign=request.data['campaign']
+            id_rol=request.data['id_rol']
 
             registeruser=users(
                 document=document,
                 password=password,
                 campaign=campaign,
+                id_rol=id_rol,
             )
             registeruser.save()
             return Response({
@@ -132,10 +134,6 @@ class UsersAPIVIEW(APIView):
             registereduser= users.objects.filter(document=document)
             registereduser_serializer=UsersSerializer(registereduser,many=True)
             data=registereduser_serializer.data
-            
-
-
-
             if len(data) > 0:
                 print(type(data))
                 return JsonResponse({
@@ -150,40 +148,3 @@ class UsersAPIVIEW(APIView):
                     "response": []
                 })
 
-class UsersloginAPIVIEW(APIView):
-
-
-     def post(self,request):
-        try:
-            document=request.data['document']
-            password=request.data['password']
-
-
-            
-            response= json.dumps(UsersAPIVIEW.getByDocument(document))
-
-            
-
-
-            # docu=response.data['document']
-
-            if len(response) > 0:
-                return Response({
-                    "status": "true",
-                    "message": "Se ha encontrado con éxito",
-                    "response": response
-                    })
-                    
-            else:
-                return JsonResponse({
-                    "status": "true",
-                    "messege": "No se encontraron registros",
-                    "response": []
-                })
-        except BaseException as err:
-                return Response({
-                    "status":"true",
-                    "message":" No se guardó",
-                    "OS error": type(err),
-                    "test": "test"
-                })
