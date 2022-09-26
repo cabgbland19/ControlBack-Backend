@@ -38,6 +38,7 @@ LOCAL_APPS=[
 
 THIRDS_APPS=[
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 
@@ -116,4 +117,4 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AWTH_USERS_MODEL='users.users'
+AUTH_USER_MODEL='userss.users'

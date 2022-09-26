@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 class rol(models.Model):
     id=models.IntegerField(primary_key=True)
@@ -50,11 +51,14 @@ class BaseEnviarGtc(models.Model):
     team_leader=models.CharField(max_length=60)
     gerente=models.CharField(max_length=60)
 
-class users(models.Model):
-    document=models.CharField(max_length=10)
+class users(AbstractBaseUser):
+    document=models.CharField(max_length=10, unique=True)
     password=models.CharField(max_length=16)
     campaign=models.IntegerField()
     id_rol=models.IntegerField()
+
+    REQUIRED_FIELDS=['password','campaign','id_rol']
+    USERNAME_FIELD='document'
 
 class campañas(models.Model):
     id=models.IntegerField(primary_key=True)

@@ -19,3 +19,7 @@ class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model=users
         fields='__all__'
+class UserstokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=users
+        fields=('document','campaign')
