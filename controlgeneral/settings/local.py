@@ -5,7 +5,7 @@ ALLOWED_HOSTS = []
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'controlback1',
+        'NAME':'controlback',
         'USER': 'root',
         'PASSWORD':'',
         'HOST': 'localhost',

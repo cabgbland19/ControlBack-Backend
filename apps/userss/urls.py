@@ -5,11 +5,8 @@ from apps.userss.api.api import *
 
 
 urlpatterns=[
-
-   path('GTCrecibida/',BaserecibidaAPIVIEW.as_view(),name='GTCRecibidaApi'),
-   path('GTCenviar/',BaseEnviarAPIVIEW.as_view(),name='GTCenviarapi'),
    path('user/',UsersAPIVIEW.as_view(),name='useruserapi'),
-   path('user/<int:document>/',UsersAPIVIEW.getByDocument,name='userapibyid'),
+   path('user/<int:document>/',UsersAPIVIEW.getById,name='userapibyid'),
    
 
 

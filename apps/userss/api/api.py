@@ -12,91 +12,12 @@ import json
 
 
 
-class BaserecibidaAPIVIEW(APIView):
-    
-    def get(self,request):
-        baserecibida= BaseRecibidaGtc.objects.all()
-        baserecibida_serializer= BaserecibidaGTCserializer(baserecibida,many=True)
-        data=baserecibida_serializer.data
-        
-        return Response({ 
-            "response":data
-            }
-        )
-
-class BaseEnviarAPIVIEW(APIView):
-    
-        def get(self,request):
-            baseenviar= BaseEnviarGtc.objects.all()
-            baseenviar_serializer=BaseenviarGTCserializer(baseenviar,many=True)
-            data=baseenviar_serializer.data
-            print(data)
-            return Response({ 
-            "response":data
-            })
-
-        def post(self,request):
-            try:
-                cuenta=request.data['cuenta']
-                contacto=request.data['contacto']
-                gtcaplica=request.data['gtcaplica']
-                tipo_solucion=request.data['tipo_solucion']
-                motivo_gtc=request.data['motivo_gtc']
-                campo_observacion=request.data['campo_observacion']
-                valor_diferencial=request.data['valor_diferencial']
-                marcacion=request.data['marcacion']
-                solucionado=request.data['solucionado']
-                informacion=request.data['informacion']
-                fecha_solcionado=request.data['fecha_solcionado']
-                gestor=request.data['gestor']
-                valor_mensual=request.data['valor_mensual']
-                meses_ajuste=request.data['meses_ajuste']
-                id_llamada=request.data['id_llamada']
-                usuario_de_red=request.data['usuario_de_red']
-                nombre_asesor=request.data['nombre_asesor']
-                team_leader=request.data['team_leader']
-                gerente=request.data['gerente']
-
-                baseenviar=BaseEnviarGtc(
-                    cuenta=cuenta,
-                    contacto=contacto,
-                    gtcaplica=gtcaplica,
-                    tipo_solucion=tipo_solucion,
-                    motivo_gtc=motivo_gtc,
-                    campo_observacion=campo_observacion,
-                    valor_diferencial=valor_diferencial,
-                    marcacion=marcacion,
-                    solucionado=solucionado,
-                    informacion=informacion,
-                    fecha_solcionado=fecha_solcionado,
-                    gestor=gestor,
-                    valor_mensual=valor_mensual,
-                    meses_ajuste=meses_ajuste,
-                    id_llamada=id_llamada,
-                    usuario_de_red=usuario_de_red,
-                    nombre_asesor=nombre_asesor,
-                    team_leader=team_leader,
-                    gerente=gerente,
-                )
-                baseenviar.save()
-                return Response({
-                    "status":"true",
-                    "message":"Se guardó"
-
-                })
-            except BaseException as err:
-                return Response({
-                    "status":"true",
-                    "message":" No se guardó",
-                    "OS error": type(err),
-                    "test": "test"
-                })
 
 class UsersAPIVIEW(APIView):
 
 
     def get(self,request):
-            registereduser= users.objects.all()
+            registereduser= User.objects.all()
             registereduser_serializer=UsersSerializer(registereduser,many=True)
             data=registereduser_serializer.data
             return Response({ 
@@ -110,7 +31,7 @@ class UsersAPIVIEW(APIView):
             campaign=request.data['campaign']
             id_rol=request.data['id_rol']
 
-            registeruser=users(
+            registeruser=User(
                 document=document,
                 password=password,
                 campaign=campaign,
@@ -129,9 +50,9 @@ class UsersAPIVIEW(APIView):
                     "OS error": type(err),
                     "test": "test"
                 })
-    def getByDocument(request,document):
+    def getById(request,id):
 
-            registereduser= users.objects.filter(document=document)
+            registereduser= User.objects.filter(id=id)
             registereduser_serializer=UsersSerializer(registereduser,many=True)
             data=registereduser_serializer.data
             if len(data) > 0:

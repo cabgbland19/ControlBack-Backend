@@ -3,23 +3,14 @@ from apps.userss.models import *
 
 
 
-
-
-class BaserecibidaGTCserializer(serializers.ModelSerializer):
+class UserstokenSerializer(serializers.ModelSerializer):
     class Meta:
-        model=BaseRecibidaGtc
-        fields='__all__'
+        model=User
+        fields=('username','name','password')
 
-class BaseenviarGTCserializer(serializers.ModelSerializer):
-    class Meta:
-        model=BaseEnviarGtc
-        fields='__all__'
+
 
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
-        model=users
+        model=User
         fields='__all__'
-class UserstokenSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=users
-        fields=('document','campaign')
