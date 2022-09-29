@@ -5,8 +5,8 @@ from apps.userss.api.api import *
 
 
 urlpatterns=[
-   path('user/',UsersAPIVIEW.as_view(),name='useruserapi'),
-   path('user/<int:document>/',UsersAPIVIEW.getById,name='userapibyid'),
+   path('user/',management_user,name='useruserapi'),
+   path('user/<int:id>/',management_user_detail,name='detail'),
    
 
 
