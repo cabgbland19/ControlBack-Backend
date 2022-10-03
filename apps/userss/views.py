@@ -57,7 +57,7 @@ class Logout (APIView):
                     
                     for session in all_sessions:
                         session_data= session.get_decoded().get('_auth_user_id')
-                        print(session_data)
+                       
                         if user.id == int(session_data):
                             session.delete()
                 token.delete()
