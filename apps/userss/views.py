@@ -48,13 +48,18 @@ class Logout (APIView):
             
 
             if token:
-                # user=token.user
-                # all_sessions=Session.objects.filter(expire_date__gte =datetime.now(tz=timezone.utc))
-                # if all_sessions.exists():
-                #     for session in all_sessions:
-                #         session_data=session.get_decode()
-                #         if user.id == int(session_data.get('_auth_user_id')):
-                #             session.delete()
+                user=token.user 
+                print(user.id)
+                all_sessions=Session.objects.filter(expire_date__gte =datetime.now())
+                print(all_sessions[0])
+               
+                if all_sessions.exists():
+                    
+                    for session in all_sessions:
+                        session_data= session.get_decoded().get('_auth_user_id')
+                        print(session_data)
+                        if user.id == int(session_data):
+                            session.delete()
                 token.delete()
                
 
