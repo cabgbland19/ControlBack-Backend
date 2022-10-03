@@ -6,7 +6,7 @@ from apps.userss.models import *
 class UserstokenSerializer(serializers.ModelSerializer):
     class Meta:
         model=User
-        fields=('username','name','password')
+        fields=('username','name','last_name','campaign')
     
     
 
