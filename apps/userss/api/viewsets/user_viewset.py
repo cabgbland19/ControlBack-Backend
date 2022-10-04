@@ -34,8 +34,8 @@ class UserViewSet(Authentication,viewsets.ModelViewSet):
     def update(self, request, pk=None):
         if self.get_queryset(pk):
             
-            product_serializer = self.serializer_class(self.get_queryset(pk), data=request.data)            
-            if product_serializer.is_valid():
-                product_serializer.save()
-                return Response({'message':'User updated succesfully!','data':product_serializer.data}, status=status.HTTP_200_OK)
-            return Response({'message':'', 'error':product_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            user_serializer = self.serializer_class(self.get_queryset(pk), data=request.data)            
+            if user_serializer.is_valid():
+                user_serializer.save()
+                return Response({'message':'User updated succesfully!','data':user_serializer.data}, status=status.HTTP_200_OK)
+            return Response({'message':'', 'error':user_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
