@@ -13,10 +13,11 @@ import asyncio
 import json
 
 
-@api_view(['GET','POST','PUT'])
+@api_view(['GET','POST'])
 def management_user(request):
 
     if request.method== 'GET':
+        
         users= User.objects.all()
         users_serializer= UsersSerializer(users,many = True)
         return Response(users_serializer.data)
@@ -29,9 +30,10 @@ def management_user(request):
         else:
             return Response(user_serializer.errors)
 
-@api_view(['GET','POST','PUT'])
+@api_view(['GET','PUT'])
 def management_user_detail(request,id):
     if request.method== 'GET':
+        """ Hola"""
         users= User.objects.filter(id=id).first()
         users_serializer= UsersSerializer(users)
         return JsonResponse({'data':users_serializer.data})
