@@ -23,6 +23,17 @@ class recibidaGTCViewSet(Authentication,viewsets.ModelViewSet):
         }
         return Response(data, status=status.HTTP_200_OK)
 
+    def create(self, request):
+        # send information to serializer 
+       
+        serializer = self.serializer_class(data=request.data)     
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'base field created succesfully!'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'message':'', 'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class enviarGTCViewSet(Authentication,viewsets.ModelViewSet):
     serializer_class= BaseenviarGTCserializer
     parser_classes=(JSONParser,MultiPartParser)

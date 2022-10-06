@@ -6,16 +6,24 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from apps.userss.api.serializers import UserstokenSerializer
+from apps.userss.api.serializers import UserRegisterSerializer
 from django.contrib.sessions.models import Session
 
 
 class Login (ObtainAuthToken):
-
+    serializer_clas= UserRegisterSerializer
     def post(self, request, *args, **kwargs):
         login_serializer= self.serializer_class(data=request.data, context={'request':request})
         if login_serializer.is_valid():
             user=login_serializer.validated_data['user']
+            sendata={"user":str(login_serializer.validated_data['user']),"state":"login"}
             if user.is_active:
+                serializer = self.serializer_clas(data=sendata)     
+                if serializer.is_valid():
+                    serializer.save()
+                    print("hecho")
+                else:
+                    print("no se pudo")
                 token,created=Token.objects.get_or_create(user=user)
                 user_serializer= UserstokenSerializer(user)
                 if created:
@@ -39,6 +47,7 @@ class Login (ObtainAuthToken):
             return Response({'mesagge':'not valid'})
 
 class Logout (APIView):
+    serializer_clas= UserRegisterSerializer
     def post(self,request,  *args, **kwargs):
         try:
 
@@ -47,6 +56,7 @@ class Logout (APIView):
         
             if token:
                 user=token.user
+                print(user)
                 all_sessions=Session.objects.filter(expire_date__gte =datetime.now())
                 if all_sessions.exists():
                     for session in all_sessions:
@@ -54,6 +64,13 @@ class Logout (APIView):
                         if user.id == int(session_data):
                             session.delete()
                 token.delete()
+                sendata={"user":str(token.user),"state":"logout"}
+                serializer = self.serializer_clas(data=sendata)     
+                if serializer.is_valid():
+                    serializer.save()
+                    print("hecho")
+                else:
+                    print("no se pudo")
                
 
                 return Response({'session_message':'all sessions removed','token_mesage':'token removed'})
@@ -62,8 +79,3 @@ class Logout (APIView):
 
         except:
             return Response({'error':'token not found in request'})
-
-
-            
-
-

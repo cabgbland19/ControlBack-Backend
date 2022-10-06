@@ -22,6 +22,7 @@ class BaseRecibidaGtc(models.Model):
     aliado_int=models.CharField(max_length=20)
     periodo=models.IntegerField()
     nombre_linea=models.CharField(max_length=30)
+    is_active=models.BooleanField(default = False)
 
 class BaseEnviarGtc(models.Model):
     cuenta=models.IntegerField()
@@ -33,7 +34,6 @@ class BaseEnviarGtc(models.Model):
     valor_diferencial=models.IntegerField()
     marcacion=models.CharField(max_length=10)
     solucionado=models.CharField(max_length=5)
-    informacion=models.CharField(max_length=20)
     fecha_solcionado=models.DateField()
     gestor=models.CharField(max_length=60)
     valor_mensual=models.IntegerField()
@@ -43,3 +43,4 @@ class BaseEnviarGtc(models.Model):
     nombre_asesor=models.CharField(max_length=60)
     team_leader=models.CharField(max_length=60)
     gerente=models.CharField(max_length=60)
+    

@@ -42,7 +42,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/',include('apps.userss.api.routers')),
     path('bases/',include('apps.basses.api.routers')),
-    path('',Login.as_view(),name='login'),
+    path('login/',Login.as_view(),name='login'),
     path('logout/',Logout.as_view(),name='logout'),
     
     

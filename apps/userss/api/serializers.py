@@ -8,7 +8,7 @@ class UserstokenSerializer(serializers.ModelSerializer):
         model=User
         fields=('username','name','last_name','campaign')
     
-    
+
 
 
 
@@ -29,3 +29,9 @@ class UsersSerializer(serializers.ModelSerializer):
         updated_user.set_password(validated_data['password'])
         updated_user.save()
         return updated_user
+
+
+class UserRegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=RegistersUsers
+        fields='__all__'

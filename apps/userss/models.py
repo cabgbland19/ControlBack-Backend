@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from sqlalchemy import false
-
+from django.utils import timezone
 
 
 class UserManager(BaseUserManager):
@@ -44,3 +44,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f'{self.name} {self.last_name}'
+
+
+class RegistersUsers(models.Model):
+    user=models.CharField(max_length = 255)
+    state=models.CharField(max_length = 255)
+    datetimes=models.DateTimeField(default=timezone.now)

@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.parsers import JSONParser, MultiPartParser
 from apps.userss.authentication_mixin  import Authentication
 from apps.userss.api.serializers import UsersSerializer
+from apps.userss.api.serializers import UserRegisterSerializer
 
 class UserViewSet(Authentication,viewsets.ModelViewSet):
     serializer_class= UsersSerializer
@@ -39,3 +40,4 @@ class UserViewSet(Authentication,viewsets.ModelViewSet):
                 user_serializer.save()
                 return Response({'message':'User updated succesfully!','data':user_serializer.data}, status=status.HTTP_200_OK)
             return Response({'message':'', 'error':user_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
