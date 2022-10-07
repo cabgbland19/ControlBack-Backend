@@ -44,7 +44,7 @@ class Login (ObtainAuthToken):
             else:
                 return Response({'mesagge':'not active'}, status.HTTP_401_UNAUTHORIZED)
         else:
-            return Response({'mesagge':'not valid'})
+            return Response({'mesagge':'not valid'},status.HTTP_401_UNAUTHORIZED)
 
 class Logout (APIView):
     serializer_clas= UserRegisterSerializer
