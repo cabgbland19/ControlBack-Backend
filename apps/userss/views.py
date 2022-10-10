@@ -8,7 +8,8 @@ from rest_framework import status
 from apps.userss.api.serializers import UserstokenSerializer
 from apps.userss.api.serializers import UserRegisterSerializer
 from django.contrib.sessions.models import Session
-
+from datetime import datetime
+from django.utils import timezone
 
 class Login (ObtainAuthToken):
     serializer_clas= UserRegisterSerializer
@@ -16,12 +17,14 @@ class Login (ObtainAuthToken):
         login_serializer= self.serializer_class(data=request.data, context={'request':request})
         if login_serializer.is_valid():
             user=login_serializer.validated_data['user']
-            sendata={"user":str(login_serializer.validated_data['user']),"state":"login"}
+            hour=datetime.now()
+            hour=hour.strftime('%Y-%m-%d %H:%M:%S')
+            sendata={"user":str(login_serializer.validated_data['user']),"state":"login","datetimes":hour}
             if user.is_active:
                 serializer = self.serializer_clas(data=sendata)     
                 if serializer.is_valid():
                     serializer.save()
-                    print("hecho")
+                    print(datetime.now())
                 else:
                     print("no se pudo")
                 token,created=Token.objects.get_or_create(user=user)
@@ -64,11 +67,13 @@ class Logout (APIView):
                         if user.id == int(session_data):
                             session.delete()
                 token.delete()
-                sendata={"user":str(token.user),"state":"logout"}
+                hour=datetime.now()
+                print(hour)
+                sendata={"user":str(token.user),"state":"logout","datetimes":hour}
                 serializer = self.serializer_clas(data=sendata)     
                 if serializer.is_valid():
                     serializer.save()
-                    print("hecho")
+                    
                 else:
                     print("no se pudo")
                

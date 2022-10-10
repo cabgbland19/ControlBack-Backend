@@ -7,7 +7,7 @@ ALLOWED_HOSTS = []
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME':'controlback',
+        'NAME':'controlbacks',
         'USER': '',
         'PASSWORD':'',
         'HOST': 'U27TEC01\SQLEXPRESS',

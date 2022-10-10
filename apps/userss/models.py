@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from sqlalchemy import false
 from django.utils import timezone
-
+from datetime import datetime
 
 class UserManager(BaseUserManager):
     def _create_user(self, username, email, name,last_name, password, is_staff, is_superuser, **extra_fields):
@@ -33,6 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     campaign=models.IntegerField('Campaña',default = 1,null = False)
     is_active = models.BooleanField(default = True)
     is_staff = models.BooleanField(default = False)
+    rol=models.CharField(max_length = 255, default = "backoffice")
     objects = UserManager()
 
     class Meta:
@@ -40,7 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'Usuarios'
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email','name','last_name','campaign']
+    REQUIRED_FIELDS = ['email','name','last_name','campaign','rol']
 
     def __str__(self):
         return f'{self.name} {self.last_name}'
@@ -49,4 +50,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 class RegistersUsers(models.Model):
     user=models.CharField(max_length = 255)
     state=models.CharField(max_length = 255)
-    datetimes=models.DateTimeField(default=timezone.now)
+    datetimes=models.DateTimeField()
