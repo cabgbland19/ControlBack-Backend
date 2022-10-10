@@ -8,7 +8,7 @@ from rest_framework import status
 from apps.userss.api.serializers import UserstokenSerializer
 from apps.userss.api.serializers import UserRegisterSerializer
 from django.contrib.sessions.models import Session
-from datetime import datetime
+from datetime import datetime,timedelta
 from django.utils import timezone
 
 class Login (ObtainAuthToken):
@@ -18,7 +18,10 @@ class Login (ObtainAuthToken):
         if login_serializer.is_valid():
             user=login_serializer.validated_data['user']
             hour=datetime.now()
-            hour=hour.strftime('%Y-%m-%d %H:%M:%S')
+            print(hour)
+            new_datetime = timedelta( hours = -5)
+            hour=hour+new_datetime
+            print(hour)
             sendata={"user":str(login_serializer.validated_data['user']),"state":"login","datetimes":hour}
             if user.is_active:
                 serializer = self.serializer_clas(data=sendata)     
@@ -69,6 +72,10 @@ class Logout (APIView):
                 token.delete()
                 hour=datetime.now()
                 print(hour)
+                new_datetime = timedelta( hours = -5)
+                hour=hour+new_datetime
+                print(hour)
+
                 sendata={"user":str(token.user),"state":"logout","datetimes":hour}
                 serializer = self.serializer_clas(data=sendata)     
                 if serializer.is_valid():
