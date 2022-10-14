@@ -1,3 +1,6 @@
+from email.policy import default
+from faulthandler import cancel_dump_traceback_later
+from unittest.util import _MAX_LENGTH
 from django.db import models
 
 class BaseRecibidaGtc(models.Model):
@@ -23,6 +26,7 @@ class BaseRecibidaGtc(models.Model):
     periodo=models.IntegerField()
     nombre_linea=models.CharField(max_length=30)
     is_active=models.BooleanField(default = False)
+    level=models.CharField(max_length=255,default="Segundo_anillo")
 
 class BaseEnviarGtc(models.Model):
     cuenta=models.IntegerField()
@@ -44,3 +48,44 @@ class BaseEnviarGtc(models.Model):
     team_leader=models.CharField(max_length=60)
     gerente=models.CharField(max_length=60)
     
+class BaseRecibidaGesUcs(models.Model):
+    cuenta=models.IntegerField()
+    can_serv=models.IntegerField()
+    paquete=models.CharField(max_length=255)
+    aliado=models.CharField(max_length=255)
+    level=models.CharField(max_length=255)
+    fecha_unica=models.DateField(max_length=255)
+    usuario_unico=models.CharField(max_length=255)
+    mes_gestion=models.CharField(max_length=255)
+    subrazon=models.CharField(max_length=255)
+    fecha_caida=models.DateField(max_length=255)
+    dias=models.IntegerField()
+    mes_marca=models.CharField(max_length=255)
+    is_active=models.BooleanField(default = False)
+
+class BaseEnviarGesUcs(models.Model):
+    cuenta=models.IntegerField()
+    can_serv=models.IntegerField()
+    paquete=models.CharField(max_length=255)
+    aliado=models.CharField(max_length=255)
+    level=models.CharField(max_length=255)
+    fecha_unica=models.DateField(max_length=255)
+    usuario_unico=models.CharField(max_length=255)
+    mes_gestion=models.CharField(max_length=255)
+    subrazon=models.CharField(max_length=255)
+    fecha_caida=models.DateField(max_length=255)
+    dias=models.IntegerField()
+    mes_marca=models.CharField(max_length=255)
+    correcta=models.CharField(max_length=255)
+    observacion=models.CharField(max_length=400)
+    
+
+class Rols(models.Model):
+    id=models.IntegerField(primary_key=True)
+    rol_name=models.CharField(max_length=255, default="ADMIN")
+    spanish_name=models.CharField(max_length=255 ,default="ADMINISTRADOR")
+
+
+class Campaign(models.Model):
+    id=models.IntegerField(primary_key=True)
+    name=models.CharField(max_length=255)

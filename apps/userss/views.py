@@ -15,8 +15,10 @@ class Login (ObtainAuthToken):
     serializer_clas= UserRegisterSerializer
     def post(self, request, *args, **kwargs):
         login_serializer= self.serializer_class(data=request.data, context={'request':request})
+        
         if login_serializer.is_valid():
             user=login_serializer.validated_data['user']
+            
             hour=datetime.now()
             print(hour)
             new_datetime = timedelta( hours = -5)

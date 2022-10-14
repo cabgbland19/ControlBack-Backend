@@ -30,10 +30,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('Correo Electrónico',max_length = 255, unique = True,)
     name = models.CharField('Nombres', max_length = 255, blank = True, null = True)
     last_name = models.CharField('Apellidos', max_length = 255, blank = True, null = True)
-    campaign=models.IntegerField('Campaña',default = 1,null = False)
+    cost_center=models.IntegerField('Centro de costos',default = 1,null = False)
+    campaign=models.CharField('Campaña', max_length = 255, blank = True, null = True )
     is_active = models.BooleanField(default = True)
     is_staff = models.BooleanField(default = False)
     rol=models.CharField(max_length = 255, default = "backoffice")
+    
     objects = UserManager()
 
     class Meta:
@@ -41,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'Usuarios'
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email','name','last_name','campaign','rol']
+    REQUIRED_FIELDS = ['email','name','last_name','cost_center','campaign','rol']
 
     def __str__(self):
         return f'{self.name} {self.last_name}'
