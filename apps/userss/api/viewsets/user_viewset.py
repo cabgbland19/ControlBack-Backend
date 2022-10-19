@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser, MultiPartParser
 from apps.userss.authentication_mixin  import Authentication
-from apps.userss.api.serializers import UsersSerializer
+from apps.userss.api.serializers import UsersSerializer,UpdateUserSerializer,UpdateUserPswdSerializer
 from apps.basses.api.serializers import RolsSerializers, CampaignSerializers
 from apps.userss.api.serializers import UserRegisterSerializer
 from django.shortcuts import get_object_or_404
@@ -13,6 +13,8 @@ from apps.basses.models import Rols, Campaign
 class UserViewSet(Authentication,viewsets.ModelViewSet):
     serializer_class= UsersSerializer
     serializer_class2= RolsSerializers
+    serializer_class3= UpdateUserSerializer
+    serializer_class4= UpdateUserPswdSerializer
     parser_classes=(JSONParser,MultiPartParser)
     model = User
     model2 = Rols
@@ -24,6 +26,8 @@ class UserViewSet(Authentication,viewsets.ModelViewSet):
 
     def list(self, request):
         user_serializer = self.get_serializer(self.get_queryset(), many=True)
+        data={}
+       
         data = {
             "total": self.get_queryset().count(),
             "totalNotFiltered": self.get_queryset().count(),
@@ -43,6 +47,10 @@ class UserViewSet(Authentication,viewsets.ModelViewSet):
 
     def get_object(self, pk):
         return get_object_or_404(self.model, pk=pk)
+
+    def retrieve(self,request,pk):
+        user = self.get_object(pk)
+        
 
     def update(self, request, pk=None):
         user = self.get_object(pk)
@@ -64,8 +72,11 @@ class UserViewSet(Authentication,viewsets.ModelViewSet):
         campaign_serializer= CampaignSerializers(campaign)
         data['campaign']=str(campaign_serializer.data['name'])
     
-
-        user_serializer = self.serializer_class(user, data=data)
+        if 'password' in data:
+             user_serializer = self.serializer_class4(user, data=data)
+        else:
+             
+            user_serializer = self.serializer_class3(user, data=data)
         if user_serializer.is_valid():
             user_serializer.save()
             return Response({

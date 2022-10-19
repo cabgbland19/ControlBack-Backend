@@ -1,3 +1,4 @@
+from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from sqlalchemy import false
@@ -35,7 +36,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default = True)
     is_staff = models.BooleanField(default = False)
     rol=models.CharField(max_length = 255, default = "backoffice")
-    
+    id_rol=models.IntegerField( default = 1)
     objects = UserManager()
 
     class Meta:
