@@ -8,11 +8,6 @@ class UserstokenSerializer(serializers.ModelSerializer):
         model=User
         fields=('username','name','last_name','cost_center','campaign','rol')
     
-
-
-
-
-
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model=User
@@ -29,6 +24,17 @@ class UsersSerializer(serializers.ModelSerializer):
         updated_user.set_password(validated_data['password'])
         updated_user.save()
         return updated_user
+
+class UsersCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=User
+        fields='__all__'
+
+    def create(self, validated_data):
+        user=User(**validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 class UpdateUserSerializer(serializers.ModelSerializer):
     

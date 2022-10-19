@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser, MultiPartParser
 from apps.userss.authentication_mixin  import Authentication
-from apps.userss.api.serializers import UsersSerializer,UpdateUserSerializer,UpdateUserPswdSerializer
+from apps.userss.api.serializers import UsersSerializer,UpdateUserSerializer,UpdateUserPswdSerializer,UsersCreateSerializer
 from apps.basses.api.serializers import RolsSerializers, CampaignSerializers
 from apps.userss.api.serializers import UserRegisterSerializer
 from django.shortcuts import get_object_or_404
@@ -15,6 +15,7 @@ class UserViewSet(Authentication,viewsets.ModelViewSet):
     serializer_class2= RolsSerializers
     serializer_class3= UpdateUserSerializer
     serializer_class4= UpdateUserPswdSerializer
+    serializer_class5= UsersCreateSerializer
     parser_classes=(JSONParser,MultiPartParser)
     model = User
     model2 = Rols
@@ -37,8 +38,28 @@ class UserViewSet(Authentication,viewsets.ModelViewSet):
 
     def create(self, request):
         # send information to serializer 
-       
-        serializer = self.serializer_class(data=request.data)     
+        data={}
+
+        for i in request.data.items():
+            var=i[0]
+            data[var]=i[1]
+
+
+        id_rol=request.data['id_rol']
+        rol= Rols.objects.filter(id=id_rol).first()
+        rol_serializer= RolsSerializers(rol)
+        data['rol']=str(rol_serializer.data['spanish_name'])
+
+                
+
+        id_campaign=request.data['cost_center']
+        campaign= Campaign.objects.filter(id=id_campaign).first()
+        campaign_serializer= CampaignSerializers(campaign)
+        data['campaign']=str(campaign_serializer.data['name'])
+
+
+
+        serializer = self.serializer_class5(data=data)     
         if serializer.is_valid():
             serializer.save()
             return Response({'message': 'User created succesfully!'}, status=status.HTTP_201_CREATED)
@@ -60,9 +81,9 @@ class UserViewSet(Authentication,viewsets.ModelViewSet):
         id_rol=request.data['id_rol']
         for i in request.data.items():
             var=i[0]
-            if var != "id_rol":
-                data[var]=i[1]
-    
+            data[var]=i[1]
+
+
         rol= Rols.objects.filter(id=id_rol).first()
         rol_serializer= RolsSerializers(rol)
         data['rol']=str(rol_serializer.data['spanish_name'])
