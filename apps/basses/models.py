@@ -78,7 +78,7 @@ class BaseEnviarGesUcs(models.Model):
     mes_marca=models.CharField(max_length=255)
     correcta=models.CharField(max_length=255)
     observacion=models.CharField(max_length=400)
-    
+    gestor=models.CharField(max_length=60,default="NINGUNO")
 
 class Rols(models.Model):
     id=models.IntegerField(primary_key=True)

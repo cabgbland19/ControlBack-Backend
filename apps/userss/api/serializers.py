@@ -40,7 +40,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ('username', 'email', 'name', 'last_name','cost_center','campaign','id_rol','rol')
+        fields = ('username', 'email', 'name', 'last_name','cost_center','campaign','id_rol','rol','is_active')
 
     
         
@@ -48,7 +48,7 @@ class UpdateUserPswdSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ('username', 'email', 'name', 'last_name','cost_center','campaign','password','id_rol','rol')
+        fields = ('username', 'email', 'name', 'last_name','cost_center','campaign','password','id_rol','rol','is_active')
 
 
     def update(self, instance, validated_data):

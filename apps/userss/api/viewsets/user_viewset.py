@@ -22,8 +22,8 @@ class UserViewSet(Authentication,viewsets.ModelViewSet):
 
     def get_queryset(self, pk=None):
         if pk is None:
-            return self.get_serializer().Meta.model.objects.filter(is_active=True)
-
+            return self.get_serializer().Meta.model.objects
+        # .Meta.model.objects.filter(is_active=True)
 
     def list(self, request):
         user_serializer = self.get_serializer(self.get_queryset(), many=True)
