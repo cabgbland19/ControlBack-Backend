@@ -40,7 +40,7 @@ class enviarGTCViewSet(Authentication,viewsets.ModelViewSet):
     
     def get_queryset(self, pk=None):
         if pk is None:
-            return self.get_serializer().Meta.model.objects.order_by('cuenta')
+            return self.get_serializer().Meta.model.objects.filter(state=False)
 
     def list(self, request):
         gtcenviar_serializer = self.get_serializer(self.get_queryset(), many=True)

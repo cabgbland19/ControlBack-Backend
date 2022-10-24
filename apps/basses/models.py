@@ -1,7 +1,9 @@
+from datetime import date
 from email.policy import default
 from faulthandler import cancel_dump_traceback_later
 from unittest.util import _MAX_LENGTH
 from django.db import models
+from datetime import datetime
 
 class BaseRecibidaGtc(models.Model):
     cuenta=models.IntegerField()
@@ -47,6 +49,7 @@ class BaseEnviarGtc(models.Model):
     nombre_asesor=models.CharField(max_length=60)
     team_leader=models.CharField(max_length=60)
     gerente=models.CharField(max_length=60)
+    state=models.BooleanField(default = False)
     
 class BaseRecibidaGesUcs(models.Model):
     cuenta=models.IntegerField()
@@ -79,6 +82,7 @@ class BaseEnviarGesUcs(models.Model):
     correcta=models.CharField(max_length=255)
     observacion=models.CharField(max_length=400)
     gestor=models.CharField(max_length=60,default="NINGUNO")
+    fecha_solucion=models.DateField(default = datetime.now())
 
 class Rols(models.Model):
     id=models.IntegerField(primary_key=True)
