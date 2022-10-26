@@ -84,6 +84,7 @@ class BaseEnviarGesUcs(models.Model):
     gestor=models.CharField(max_length=60,default="NINGUNO")
     fecha_solucion=models.DateField(default = datetime.now())
 
+
 class Rols(models.Model):
     id=models.IntegerField(primary_key=True)
     rol_name=models.CharField(max_length=255, default="ADMIN")

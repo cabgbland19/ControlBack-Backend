@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from rest_framework.parsers import JSONParser, MultiPartParser
 from apps.userss.authentication_mixin  import Authentication
 from apps.basses.api.serializers import *
-
+from django.shortcuts import get_object_or_404
+from apps.basses.models import BaseEnviarGtc
 
 class recibidaGTCViewSet(Authentication,viewsets.ModelViewSet):
     serializer_class= BaserecibidaGTCserializer
@@ -37,6 +38,7 @@ class recibidaGTCViewSet(Authentication,viewsets.ModelViewSet):
 class enviarGTCViewSet(Authentication,viewsets.ModelViewSet):
     serializer_class= BaseenviarGTCserializer
     parser_classes=(JSONParser,MultiPartParser)
+    model=BaseEnviarGtc
     
     def get_queryset(self, pk=None):
         if pk is None:
@@ -60,13 +62,22 @@ class enviarGTCViewSet(Authentication,viewsets.ModelViewSet):
         else:
             return Response({'message':'', 'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
+
+    def get_object(self, pk):
+        return get_object_or_404(self.model, pk=pk)
+
+    def retrieve(self,request,pk):
+        base = self.get_object(pk)
+
     def update(self, request, pk=None):
-        if self.get_queryset(pk):
-            
-            enviargtc_serializer = self.serializer_class(self.get_queryset(pk), data=request.data)            
-            if enviargtc_serializer.is_valid():
-                enviargtc_serializer.save()
-                return Response({'message':'Base updated succesfully!','data':enviargtc_serializer.data}, status=status.HTTP_200_OK)
+        base = self.get_object(pk)
+        
+        
+        enviargtc_serializer = self.serializer_class(base, data=request.data)            
+        if enviargtc_serializer.is_valid():
+            enviargtc_serializer.save()
+            return Response({'message':'Base updated succesfully!','data':enviargtc_serializer.data}, status=status.HTTP_200_OK)
+        else:
             return Response({'message':'', 'error':enviargtc_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 

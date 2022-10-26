@@ -108,4 +108,29 @@ class UserViewSet(Authentication,viewsets.ModelViewSet):
             'errors': user_serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
 
+class UserbreakViewSet(Authentication,viewsets.ModelViewSet):
+    serializer_class=UserRegisterSerializer
+    def get_queryset(self, pk=None):
+        if pk is None:
+            return self.get_serializer().Meta.model.objects
+        # .Meta.model.objects.filter(is_active=True)
+
+    def list(self, request):
+        user_serializer = self.get_serializer(self.get_queryset(), many=True)
+        data={}
+       
+        data = {
+            "total": self.get_queryset().count(),
+            "totalNotFiltered": self.get_queryset().count(),
+            "rows": user_serializer.data
+        }
+        return Response(data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        serializer = self.serializer_class(data=request.data)     
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'break succesfully!'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'message':'', 'error':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
